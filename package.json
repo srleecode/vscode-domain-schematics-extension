@@ -1,0 +1,262 @@
+{
+  "name": "domain-schematics",
+  "displayName": "Domain Schematics",
+  "description": "Extension for triggering nx domain schematics",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.49.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "publisher": "srleecode",
+  "activationEvents": [
+    "onCommand:domain-schematics.createDomain",
+    "onCommand:domain-schematics.moveDomain",
+    "onCommand:domain-schematics.removeDomain",
+    "onCommand:domain-schematics.createCypressProject",
+    "onCommand:domain-schematics.removeCypressProject",
+    "onCommand:domain-schematics.addLibraries",
+    "onCommand:domain-schematics.removeLibraries",
+    "onCommand:domain-schematics.runLint",
+    "onCommand:domain-schematics.runTests"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Domain schematics",
+      "properties": {
+        "domainSchematics.style": {
+          "type": "string",
+          "default": "scss",
+          "enum": [
+            "scss",
+            "less",
+            "css"
+          ]
+        },
+        "domainSchematics.lint": {
+          "type": "string",
+          "default": "eslint",
+          "enum": [
+            "eslint",
+            "tslint"
+          ]
+        },
+        "domainSchematics.prefix": {
+          "type": "string",
+          "default": "",
+          "description": "prefix that each component/pipe selector should start with"
+        },
+        "domainSchematics.addJestJunitReporter.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Adds jest junit reporter config to jest.config when generating a library"
+        },
+        "domainSchematics.uiFramework": {
+          "type": "string",
+          "default": "@storybook/angular",
+          "enum": [
+            "@storybook/angular",
+            "@storybook/react"
+          ]
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "domain-schematics.createDomain",
+        "title": "Create domain"
+      },
+      {
+        "command": "domain-schematics.moveDomain",
+        "title": "Move domain"
+      },
+      {
+        "command": "domain-schematics.removeDomain",
+        "title": "Remove domain"
+      },
+      {
+        "command": "domain-schematics.addLibraries",
+        "title": "Add libraries"
+      },
+      {
+        "command": "domain-schematics.removeLibraries",
+        "title": "Remove libraries"
+      },
+      {
+        "command": "domain-schematics.createCypressProject",
+        "title": "Create cypress project"
+      },
+      {
+        "command": "domain-schematics.removeCypressProject",
+        "title": "Remove cypress project"
+      },
+      {
+        "command": "domain-schematics.runLint",
+        "title": "Run lint"
+      },
+      {
+        "command": "domain-schematics.runTests",
+        "title": "Run tests"
+      },
+      {
+        "command": "domain-schematics.runStorybook",
+        "title": "Run storybook"
+      },
+      {
+        "command": "domain-schematics.runStorybookTests",
+        "title": "Run storybook tests"
+      },
+      {
+        "command": "domain-schematics.runE2ETests",
+        "title": "Run E2E tests"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "domain-schematics.createDomain",
+          "group": "2_domainActions@1",
+          "when": "resourcePath =~ /libs/ || resourcePath =~ /libs[/\\\\][^./\\\\]+$/ || resourcePath =~ /libs([/\\\\][^./\\\\]+){2}$/"
+        },
+        {
+          "command": "domain-schematics.moveDomain",
+          "group": "2_domainActions@1",
+          "when": "resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
+        },
+        {
+          "command": "domain-schematics.removeDomain",
+          "group": "2_domainActions@2",
+          "when": "resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
+        },
+        {
+          "command": "domain-schematics.addLibraries",
+          "group": "2_domainActions@3",
+          "when": "resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
+        },
+        {
+          "command": "domain-schematics.removeLibraries",
+          "group": "2_domainActions@4",
+          "when": "resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
+        },
+        {
+          "command": "domain-schematics.createCypressProject",
+          "group": "2_domainActions@5",
+          "when": "resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
+        },
+        {
+          "command": "domain-schematics.removeCypressProject",
+          "group": "2_domainActions@5",
+          "when": "resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
+        },
+        {
+          "command": "domain-schematics.runLint",
+          "group": "3_domainRun@1",
+          "when": "resourcePath =~ /libs.*(?:\\.cypress|\\.storybook|data-access|feature|shell|ui|util)$/"
+        },
+        {
+          "command": "domain-schematics.runTests",
+          "group": "3_domainRun@2",
+          "when": "resourcePath =~ /libs.*(?:data-access|feature|shell|ui|util)$/"
+        },
+        {
+          "command": "domain-schematics.runStorybook",
+          "group": "4_cypress@1",
+          "when": "resourcePath =~ /libs.*(?:\\.storybook)$/"
+        },
+        {
+          "command": "domain-schematics.runStorybookTests",
+          "group": "4_cypress@2",
+          "when": "resourcePath =~ /libs.*(?:\\.storybook)$/"
+        },
+        {
+          "command": "domain-schematics.runE2ETests",
+          "group": "4_cypress@3",
+          "when": "resourcePath =~ /libs.*(?:\\.cypress)$/"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "domain-schematics.createDomain",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.moveDomain",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.removeDomain",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.addLibraries",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.removeLibraries",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.createCypressProject",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.removeCypressProject",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.runLint",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.runTests",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.runStorybook",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.runStorybookTests",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.runE2ETests",
+          "when": "never"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "package": "vsce package --no-yarn --baseImagesUrl https://github.com/srlee309/vscode-domain-schematics-extension",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "test": "jest ./src"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
+    "@nrwl/cypress": "^11.1.1",
+    "@nrwl/storybook": "^11.1.1",
+    "@nrwl/workspace": "^11.1.1",
+    "@srleecode/domain": "^4.0.7",
+    "@types/glob": "^7.1.3",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.20",
+    "@types/vscode": "^1.49.0",
+    "@typescript-eslint/eslint-plugin": "^4.12.0",
+    "@typescript-eslint/parser": "^4.12.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.17.0",
+    "glob": "^7.1.6",
+    "jest": "^26.6.3",
+    "typescript": "^4.1.3",
+    "vscode-test": "^1.4.1"
+  },
+  "dependencies": {}
+}
