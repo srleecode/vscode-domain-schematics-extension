@@ -6,4 +6,4 @@
     </a>
 </p>
 
-[Properties:](https://github.com/srlee309/domain/blob/master/packages/domain/src/schematics/move/schema.json)
+[Properties](https://github.com/srlee309/domain/blob/master/packages/domain/src/schematics/move/schema.json)
