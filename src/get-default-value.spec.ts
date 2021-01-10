@@ -10,6 +10,7 @@ describe("getDefaultValue", () => {
   const extensionConfiguration: ExtensionConfiguration = {
     style: "scss",
     prefix: "test-prefix",
+    collection: "@srleecode/domain",
     lint: "eslint",
     uiFramework: "@storybook/angular",
     addJestJunitReporter: true,

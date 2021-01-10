@@ -50,6 +50,11 @@
           "default": "",
           "description": "prefix that each component/pipe selector should start with"
         },
+        "domainSchematics.collection": {
+          "type": "string",
+          "default": "@srleecode/domain",
+          "description": "Schematic collection that will be called. You can override this with your own collection that calls @srleecode/domain and then does its own operations for things that you need done that can't be put into the domain schematics library"
+        },
         "domainSchematics.addJestJunitReporter.enabled": {
           "type": "boolean",
           "default": true,
@@ -120,7 +125,7 @@
         {
           "command": "domain-schematics.createDomain",
           "group": "2_domainActions@1",
-          "when": "resourcePath =~ /libs/ || resourcePath =~ /libs[/\\\\][^./\\\\]+$/ || resourcePath =~ /libs([/\\\\][^./\\\\]+){2}$/"
+          "when": "resourcePath =~ /libs$/ || resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
         },
         {
           "command": "domain-schematics.moveDomain",
@@ -155,7 +160,7 @@
         {
           "command": "domain-schematics.runLint",
           "group": "3_domainRun@1",
-          "when": "resourcePath =~ /libs.*(?:\\.cypress|\\.storybook|data-access|feature|shell|ui|util)$/"
+          "when": "resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)$/"
         },
         {
           "command": "domain-schematics.runTests",
@@ -245,7 +250,7 @@
     "@nrwl/cypress": "^11.1.1",
     "@nrwl/storybook": "^11.1.1",
     "@nrwl/workspace": "^11.1.1",
-    "@srleecode/domain": "^4.0.7",
+    "@srleecode/domain": "^4.0.12",
     "@types/glob": "^7.1.3",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.20",

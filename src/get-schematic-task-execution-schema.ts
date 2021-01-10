@@ -18,7 +18,7 @@ export const getSchematicTaskExecutionSchema = (
   commandTriggerContext: CommandTriggerContext
 ): TaskExecutionSchema | undefined => {
   const name = getDomainActionName(schematicName);
-  const collection = "@srleecode/domain";
+
   const useNxCli = workspaceJsonPath.endsWith("workspace.json");
   const cliName = useNxCli ? "nx" : "ng";
   const project = getProject(commandTriggerContext);
@@ -28,6 +28,7 @@ export const getSchematicTaskExecutionSchema = (
   }
   const schematicJson = getSchemaJson(command, builder, name);
   const extensionConfiguration = getExtensionConfiguration();
+  const collection = extensionConfiguration.collection;
   const options = Object.keys(schematicJson.properties).map((key) => {
     const option = {
       name: key,

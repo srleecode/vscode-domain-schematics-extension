@@ -5,6 +5,7 @@ export const getExtensionConfiguration = (): ExtensionConfiguration => {
   const domainSchematicsConfig = workspace.getConfiguration("domainSchematics");
   const style = domainSchematicsConfig.get("style") as "scss" | "less" | "css";
   const prefix = domainSchematicsConfig.get("prefix") as string;
+  const collection = domainSchematicsConfig.get("collection") as string;
   const lint = domainSchematicsConfig.get("lint") as "eslint" | "tslint";
   const addJestJunitReporter = domainSchematicsConfig.get(
     "addJestJunitReporter.enabled"
@@ -16,6 +17,7 @@ export const getExtensionConfiguration = (): ExtensionConfiguration => {
   return {
     style,
     prefix,
+    collection,
     lint,
     addJestJunitReporter,
     uiFramework,

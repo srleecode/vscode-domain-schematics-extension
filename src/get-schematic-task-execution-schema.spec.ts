@@ -16,6 +16,7 @@ describe("getSchematicTaskExecutionSchema", () => {
   const extensionConfiguration: ExtensionConfiguration = {
     style: "scss",
     prefix: "testPrefix",
+    collection: "@srleecode/domain",
     lint: "eslint",
     addJestJunitReporter: true,
     uiFramework: "@storybook/angular",
