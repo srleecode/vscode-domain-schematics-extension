@@ -2,7 +2,7 @@
   "name": "domain-schematics",
   "displayName": "Domain Schematics",
   "description": "Extension for triggering nx domain schematics",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "repository": "https://github.com/srlee309/vscode-domain-schematics-extension",
   "engines": {
     "vscode": "^1.52.0"
@@ -20,7 +20,8 @@
     "onCommand:domain-schematics.addLibraries",
     "onCommand:domain-schematics.removeLibraries",
     "onCommand:domain-schematics.runLint",
-    "onCommand:domain-schematics.runTests"
+    "onCommand:domain-schematics.runTests",
+    "onCommand:domain-schematics.addComponent"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -118,6 +119,10 @@
       {
         "command": "domain-schematics.runE2ETests",
         "title": "Run E2E tests"
+      },
+      {
+        "command": "domain-schematics.addComponent",
+        "title": "Create component"
       }
     ],
     "menus": {
@@ -125,7 +130,7 @@
         {
           "command": "domain-schematics.createDomain",
           "group": "2_domainActions@1",
-          "when": "resourcePath =~ /libs$/ || resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){2,3}$/"
+          "when": "resourcePath =~ /libs$/ || resourcePath =~ /libs([/\\\\](?!(data-access|feature|shell|ui|util))[^./\\\\]+){1,2}$/"
         },
         {
           "command": "domain-schematics.moveDomain",
@@ -230,6 +235,10 @@
         },
         {
           "command": "domain-schematics.runE2ETests",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.addComponent",
           "when": "never"
         }
       ]

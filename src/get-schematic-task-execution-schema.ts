@@ -1,15 +1,20 @@
 import { readFileSync } from "fs";
-import { window } from "vscode";
 import { TaskExecutionSchema } from "./nx-console/task-execution-schema";
 import { CommandTriggerContext } from "./get-command-trigger-context";
 import { getExtensionConfiguration } from "./get-extension-configuration";
 import { Command } from "./model/command";
 import { DomainAction, getDomainActionName } from "./model/domain-action";
 import { getProject } from "./get-project";
-import { getSchemaPath } from "./get-schema-path";
 import { getDefaultValue } from "./get-default-value";
 import { showError } from "./error-utils";
 import { getSchemaJson } from "./schema-utils";
+import { getFieldType } from "./get-field-type";
+import { getEnumTooltips } from "./get-enum-tooltips";
+import {
+  isLongFormXPrompt,
+  isOptionItemLabelValue,
+  XPrompt,
+} from "./model/x-prompt.model";
 
 export const getSchematicTaskExecutionSchema = (
   schematicName: DomainAction,
@@ -34,13 +39,33 @@ export const getSchematicTaskExecutionSchema = (
       name: key,
       ...schematicJson.properties[key],
     };
+    const fieldType = getFieldType(option);
+    const xPrompt: XPrompt = option["x-prompt"];
     const defaultValue = getDefaultValue(
       key,
       schematicName,
       commandTriggerContext,
       extensionConfiguration
     );
-    if (!!defaultValue) {
+    if (option.enum) {
+      option.items = option.enum.map((item: any) => item.toString());
+    }
+    if (xPrompt) {
+      option.tooltip = isLongFormXPrompt(xPrompt) ? xPrompt.message : xPrompt;
+      option.itemTooltips = getEnumTooltips(xPrompt);
+      if (isLongFormXPrompt(xPrompt) && !option.items) {
+        const items = (xPrompt.items || []).map((item) =>
+          isOptionItemLabelValue(item) ? item.value : item
+        );
+        if (items.length > 0) {
+          option.items = items;
+        }
+      }
+    }
+    if (fieldType) {
+      option.component = fieldType;
+    }
+    if (defaultValue) {
       option.default = defaultValue;
     }
 

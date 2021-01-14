@@ -8,6 +8,7 @@ import { Command } from "./model/command";
 import { ExtensionConfiguration } from "./model/extension-configuration";
 import * as schemaUtils from "./schema-utils";
 import { schemaMock } from "./model/schema-mock.const";
+import { ItemTooltips } from "./model/item-tooltips.model";
 
 describe("getSchematicTaskExecutionSchema", () => {
   const commandTriggerContext: CommandTriggerContext = {
@@ -21,15 +22,14 @@ describe("getSchematicTaskExecutionSchema", () => {
     addJestJunitReporter: true,
     uiFramework: "@storybook/angular",
   };
+  const getSelectedOption = (options: any[] | undefined, optionName: string) =>
+    (options || []).filter((option) => option.name === optionName)[0];
+
   const getOptionDefaultValue = (
     options: any[] | undefined,
     optionName: string
-  ) => {
-    const selectedOption = (options || []).filter(
-      (option) => option.name === optionName
-    )[0];
-    return selectedOption?.default;
-  };
+  ) => getSelectedOption(options, optionName)?.default;
+
   beforeAll(() =>
     jest.spyOn(schemaUtils, "getSchemaJson").mockReturnValue(schemaMock)
   );
@@ -67,6 +67,47 @@ describe("getSchematicTaskExecutionSchema", () => {
       });
       it("should set cliName to ng when workspace.json is not found", () => {
         expect(schema?.cliName).toBe("ng");
+      });
+      it("should set items when schema option has enum values", () => {
+        expect(
+          getSelectedOption(schema?.options, "uiFramework").items
+        ).toEqual(["@storybook/angular", "@storybook/react"]);
+      });
+      describe("xPrompt", () => {
+        it("should set tooltip when option has short form xPrompt", async () => {
+          expect(
+            getSelectedOption(schema?.options, "application").tooltip
+          ).toBe(schemaMock.properties.application["x-prompt"]);
+        });
+
+        it("should set tooltip when option has long form xPrompt", async () => {
+          expect(getSelectedOption(schema?.options, "libraries").tooltip).toBe(
+            schemaMock.properties.libraries["x-prompt"].message
+          );
+        });
+
+        it("should set enumTooltips when x-prompt has items and labels", async () => {
+          const tooltips: ItemTooltips = {};
+          schemaMock.properties.libraries["x-prompt"].items.forEach(
+            (item) => (tooltips[item.value] = item.label)
+          );
+          expect(
+            getSelectedOption(schema?.options, "libraries").itemTooltips
+          ).toEqual(tooltips);
+        });
+        it("should set items from xPrompt items with label and value when enum is not provided", async () => {
+          const xPromptValues = schemaMock.properties.style[
+            "x-prompt"
+          ].items.map((item) => item.value);
+          expect(getSelectedOption(schema?.options, "style").items).toEqual(
+            xPromptValues
+          );
+        });
+        it("should use given items when option has items property", async () => {
+          expect(getSelectedOption(schema?.options, "libraries").items).toEqual(
+            schemaMock.properties.libraries.items
+          );
+        });
       });
     });
     describe("triggered from application", () => {

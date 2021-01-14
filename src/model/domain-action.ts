@@ -1,5 +1,3 @@
-import { Domain } from "domain";
-
 export enum DomainAction {
   createDomain = "createDomain",
   moveDomain = "moveDomain",
@@ -13,6 +11,7 @@ export enum DomainAction {
   runStorybook = "runStorybook",
   runStorybookTests = "runStorybookTests",
   runE2ETests = "runE2ETests",
+  addComponent = "addComponent",
 }
 
 export const getDomainActionName = (action: DomainAction): string => {
@@ -41,5 +40,8 @@ export const getDomainActionName = (action: DomainAction): string => {
       return "storybook-e2e";
     case DomainAction.runE2ETests:
       return "e2e";
+    case DomainAction.addComponent: {
+      return "component";
+    }
   }
 };
