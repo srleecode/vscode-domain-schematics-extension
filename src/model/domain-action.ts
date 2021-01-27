@@ -41,7 +41,7 @@ export const getDomainActionName = (action: DomainAction): string => {
     case DomainAction.runE2ETests:
       return "e2e";
     case DomainAction.addComponent: {
-      return "component";
+      return "addComponent";
     }
   }
 };

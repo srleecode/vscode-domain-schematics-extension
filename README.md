@@ -12,6 +12,7 @@ Schematics:
  - [remove libraries](readme/remove-libraries.md)
  - [add cypress project](readme/add-cyporess-project.md)
  - [remove cypress project](readme/remove-cypress-project.md)
+ - [add component](readme/add-component.md)
 
 Run tasks:
  - [storybook](readme/storybook.md)

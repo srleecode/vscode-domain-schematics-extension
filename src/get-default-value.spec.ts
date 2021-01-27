@@ -4,6 +4,7 @@ import { DomainAction } from "./model/domain-action";
 import { ExtensionConfiguration } from "./model/extension-configuration";
 import * as domainUtils from "./domain-utils";
 import { DomainLibraryName } from "./model/domain-library-name.enum";
+import { ChangeDetection } from "./model/change-detection.enum";
 jest.mock("vscode", () => {}, { virtual: true });
 
 describe("getDefaultValue", () => {
@@ -14,6 +15,12 @@ describe("getDefaultValue", () => {
     lint: "eslint",
     uiFramework: "@storybook/angular",
     addJestJunitReporter: true,
+    displayBlock: true,
+    isExported: true,
+    buildable: true,
+    enableIvy: true,
+    strict: true,
+    publishable: false,
   };
   beforeAll(() =>
     jest
@@ -111,5 +118,22 @@ describe("getDefaultValue", () => {
         extensionConfiguration
       )
     ).toBe("data-access,shell");
+  });
+  it("should set change detection based on library type clicked", () => {
+    const commandTriggerContext: CommandTriggerContext = {
+      application: "application",
+      topLevelDomain: "top-level-domain",
+      childDomain: "child-domain",
+      library: DomainLibraryName.ui,
+    };
+
+    expect(
+      getDefaultValue(
+        "changeDetection",
+        DomainAction.addComponent,
+        commandTriggerContext,
+        extensionConfiguration
+      )
+    ).toBe(ChangeDetection.onPush);
   });
 });

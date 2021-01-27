@@ -2,7 +2,7 @@
   "name": "domain-schematics",
   "displayName": "Domain Schematics",
   "description": "Extension for triggering nx domain schematics",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "repository": "https://github.com/srlee309/vscode-domain-schematics-extension",
   "engines": {
     "vscode": "^1.52.0"
@@ -68,6 +68,36 @@
             "@storybook/angular",
             "@storybook/react"
           ]
+        },
+        "domainSchematics.displayBlock.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies if the add components style will contain `:host { display: block; }`"
+        },
+        "domainSchematics.isExported.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "The declaring NgModule exports the added component`"
+        },
+        "domainSchematics.buildable.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies if the buildable flag is used when creating domain libraries"
+        },
+        "domainSchematics.publishable.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Specifies if the publishable flag is used when creating domain libraries. This is not recommended when enableIvy is true"
+        },
+        "domainSchematics.strict.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies if the strict flag is used when creating domain libraries."
+        },
+        "domainSchematics.enableIvy.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies if the enableIvy flag is used when creating domain libraries."
         }
       }
     },
@@ -186,6 +216,11 @@
           "command": "domain-schematics.runE2ETests",
           "group": "4_cypress@3",
           "when": "resourcePath =~ /libs.*(?:\\.cypress)$/"
+        },
+        {
+          "command": "domain-schematics.addComponent",
+          "group": "4_component@1",
+          "when": "resourcePath =~ /libs.*(?:feature|ui)$/"
         }
       ],
       "commandPalette": [
@@ -259,7 +294,7 @@
     "@nrwl/cypress": "^11.1.1",
     "@nrwl/storybook": "^11.1.1",
     "@nrwl/workspace": "^11.1.1",
-    "@srleecode/domain": "^4.0.12",
+    "@srleecode/domain": "^4.1.2",
     "@types/glob": "^7.1.3",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.20",

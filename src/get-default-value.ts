@@ -2,6 +2,7 @@ import { window } from "vscode";
 import { getLibraries } from "./domain-utils";
 import { showError } from "./error-utils";
 import { CommandTriggerContext } from "./get-command-trigger-context";
+import { ChangeDetection } from "./model/change-detection.enum";
 import { DomainAction } from "./model/domain-action";
 import { DomainLibraryName } from "./model/domain-library-name.enum";
 import { ExtensionConfiguration } from "./model/extension-configuration";
@@ -52,6 +53,15 @@ export const getDefaultValue = (
       defaultValue = Object.values(DomainLibraryName)
         .filter((libraryName) => existingLibraries.includes(libraryName))
         .join(",");
+    }
+  } else if (
+    optionKey === "changeDetection" &&
+    action === DomainAction.addComponent
+  ) {
+    if (commandTriggerContext.library === DomainLibraryName.feature) {
+      defaultValue = ChangeDetection.default;
+    } else if (commandTriggerContext.library === DomainLibraryName.ui) {
+      defaultValue = ChangeDetection.onPush;
     }
   }
 

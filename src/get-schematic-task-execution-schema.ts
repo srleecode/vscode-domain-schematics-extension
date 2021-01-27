@@ -23,7 +23,6 @@ export const getSchematicTaskExecutionSchema = (
   commandTriggerContext: CommandTriggerContext
 ): TaskExecutionSchema | undefined => {
   const name = getDomainActionName(schematicName);
-
   const useNxCli = workspaceJsonPath.endsWith("workspace.json");
   const cliName = useNxCli ? "nx" : "ng";
   const project = getProject(commandTriggerContext);

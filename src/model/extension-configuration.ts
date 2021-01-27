@@ -5,4 +5,10 @@ export interface ExtensionConfiguration {
   lint: "eslint" | "tslint";
   addJestJunitReporter: boolean;
   uiFramework: "@storybook/angular" | "@storybook/react";
+  displayBlock: boolean;
+  isExported: boolean;
+  buildable: boolean;
+  publishable: boolean;
+  strict: boolean;
+  enableIvy: boolean;
 }

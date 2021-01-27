@@ -14,7 +14,7 @@ export const getSchemaJson = (
   }
   if (!schematicJsonFilePath) {
     showError(
-      `Unable to find schema for ${command} ${name} ${builder}. Please ensure that you have installed @srleecode/domain`
+      `Unable to find schema for ${command} ${name} ${builder}. Please ensure that you have the latest version of @srleecode/domain installed`
     );
   }
   const schematicJsonFile = readFileSync(schematicJsonFilePath);

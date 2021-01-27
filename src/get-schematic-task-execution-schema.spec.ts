@@ -21,6 +21,12 @@ describe("getSchematicTaskExecutionSchema", () => {
     lint: "eslint",
     addJestJunitReporter: true,
     uiFramework: "@storybook/angular",
+    displayBlock: true,
+    isExported: true,
+    buildable: true,
+    enableIvy: true,
+    strict: true,
+    publishable: false,
   };
   const getSelectedOption = (options: any[] | undefined, optionName: string) =>
     (options || []).filter((option) => option.name === optionName)[0];

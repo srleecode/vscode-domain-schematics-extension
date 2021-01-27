@@ -13,6 +13,18 @@ export const getExtensionConfiguration = (): ExtensionConfiguration => {
   const uiFramework = domainSchematicsConfig.get("uiFramework") as
     | "@storybook/angular"
     | "@storybook/react";
+  const displayBlock = domainSchematicsConfig.get(
+    "displayBlock.enabled"
+  ) as boolean;
+  const isExported = domainSchematicsConfig.get(
+    "isExported.enabled"
+  ) as boolean;
+  const buildable = domainSchematicsConfig.get("buildable.enabled") as boolean;
+  const publishable = domainSchematicsConfig.get(
+    "publishable.enabled"
+  ) as boolean;
+  const strict = domainSchematicsConfig.get("strict.enabled") as boolean;
+  const enableIvy = domainSchematicsConfig.get("enableIvy.enabled") as boolean;
 
   return {
     style,
@@ -21,5 +33,11 @@ export const getExtensionConfiguration = (): ExtensionConfiguration => {
     lint,
     addJestJunitReporter,
     uiFramework,
+    displayBlock,
+    isExported,
+    buildable,
+    publishable,
+    strict,
+    enableIvy,
   };
 };

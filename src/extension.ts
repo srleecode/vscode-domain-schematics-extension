@@ -229,6 +229,22 @@ export function activate(context: ExtensionContext) {
     }
   );
 
+  let addComponentCommand = commands.registerCommand(
+    "domain-schematics.addComponent",
+    (e: Uri) => {
+      if (!!nxConsole) {
+        revealWebViewPanel(
+          context,
+          nxConsole?.extensionPath,
+          taskProvider,
+          DomainAction.addComponent,
+          Command.generate,
+          getCommandTriggerContext(e)
+        );
+      }
+    }
+  );
+
   context.subscriptions.push(createDomainCommand);
   context.subscriptions.push(moveDomainCommand);
   context.subscriptions.push(removeDomainCommand);
@@ -241,6 +257,7 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(runStorybookCommand);
   context.subscriptions.push(runStorybookTestsCommand);
   context.subscriptions.push(runE2ETestsCommand);
+  context.subscriptions.push(addComponentCommand);
 }
 
 // this method is called when your extension is deactivated
