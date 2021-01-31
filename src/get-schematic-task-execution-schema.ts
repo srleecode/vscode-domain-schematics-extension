@@ -15,6 +15,7 @@ import {
   isOptionItemLabelValue,
   XPrompt,
 } from "./model/x-prompt.model";
+import { getCollection } from "./get-collection";
 
 export const getSchematicTaskExecutionSchema = (
   schematicName: DomainAction,
@@ -30,14 +31,18 @@ export const getSchematicTaskExecutionSchema = (
   if (command === Command.run) {
     builder = getBuilder(workspaceJsonPath, project, name);
   }
-  const schematicJson = getSchemaJson(command, builder, name);
   const extensionConfiguration = getExtensionConfiguration();
-  const collection = extensionConfiguration.collection;
+  const collection = getCollection(
+    schematicName,
+    extensionConfiguration.collection
+  );
+  const schematicJson = getSchemaJson(command, builder, name, collection);
   const options = Object.keys(schematicJson.properties).map((key) => {
     const option = {
       name: key,
       ...schematicJson.properties[key],
     };
+    delete option.items;
     const fieldType = getFieldType(option);
     const xPrompt: XPrompt = option["x-prompt"];
     const defaultValue = getDefaultValue(

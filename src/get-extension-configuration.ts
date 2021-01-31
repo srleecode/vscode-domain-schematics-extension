@@ -25,6 +25,7 @@ export const getExtensionConfiguration = (): ExtensionConfiguration => {
   ) as boolean;
   const strict = domainSchematicsConfig.get("strict.enabled") as boolean;
   const enableIvy = domainSchematicsConfig.get("enableIvy.enabled") as boolean;
+  const ngrxFolder = domainSchematicsConfig.get("ngrxFolder") as string;
 
   return {
     style,
@@ -39,5 +40,6 @@ export const getExtensionConfiguration = (): ExtensionConfiguration => {
     publishable,
     strict,
     enableIvy,
+    ngrxFolder,
   };
 };

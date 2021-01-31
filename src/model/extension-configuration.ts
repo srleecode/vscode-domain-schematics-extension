@@ -11,4 +11,5 @@ export interface ExtensionConfiguration {
   publishable: boolean;
   strict: boolean;
   enableIvy: boolean;
+  ngrxFolder: string;
 }

@@ -8,6 +8,7 @@ export interface CommandTriggerContext {
   childDomain?: string;
   library?: DomainLibraryName;
   cypressFolder?: CypressFolder;
+  path: string;
 }
 
 type CypressFolder = "cypress" | "storybook";
@@ -15,7 +16,7 @@ type CypressFolder = "cypress" | "storybook";
 export const getCommandTriggerContext = (
   triggeredFromUri: Uri
 ): CommandTriggerContext => {
-  const splitPath = triggeredFromUri.path.split("/");
+  const splitPath = getLibraryPath(triggeredFromUri.path).split("/");
   const libsFolderIndex = splitPath.findIndex((folder) => folder === "libs");
   const application = splitPath[libsFolderIndex + 1];
   let topLevelDomain = splitPath[libsFolderIndex + 2];
@@ -24,6 +25,7 @@ export const getCommandTriggerContext = (
   const context: CommandTriggerContext = {
     application,
     topLevelDomain,
+    path: getLibraryPath(triggeredFromUri.fsPath),
   };
   if (isCypressFolder(secondLevelFolder)) {
     context.cypressFolder = secondLevelFolder.replace(".", "") as CypressFolder;
@@ -42,3 +44,5 @@ export const getCommandTriggerContext = (
   }
   return context;
 };
+
+const getLibraryPath = (path: string): string => path.replace("/src/lib", "");

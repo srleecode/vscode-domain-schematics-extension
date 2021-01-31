@@ -9,6 +9,7 @@ describe("getProject", () => {
       childDomain: "child-domain",
       topLevelDomain: "top-level-domain",
       cypressFolder: "cypress",
+      path: "",
     };
     expect(getProject(commandTriggerContext)).toBe(
       "e2e-application-top-level-domain-child-domain"
@@ -19,6 +20,7 @@ describe("getProject", () => {
       application: "application",
       childDomain: "child-domain",
       cypressFolder: "cypress",
+      path: "",
     };
     expect(getProject(commandTriggerContext)).toBe(
       "e2e-application-undefined-child-domain"
@@ -30,6 +32,7 @@ describe("getProject", () => {
       childDomain: "child-domain",
       topLevelDomain: "top-level-domain",
       library: DomainLibraryName.dataAccess,
+      path: "",
     };
     expect(getProject(commandTriggerContext)).toBe(
       "application-top-level-domain-child-domain-data-access"
@@ -40,6 +43,7 @@ describe("getProject", () => {
       application: "application",
       topLevelDomain: "top-level-domain",
       library: DomainLibraryName.dataAccess,
+      path: "",
     };
     expect(getProject(commandTriggerContext)).toBe(
       "application-top-level-domain-data-access"

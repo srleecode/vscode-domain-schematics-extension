@@ -16,8 +16,6 @@ import { DomainAction } from "./model/domain-action";
 import { Command } from "./model/command";
 import { showError } from "./error-utils";
 
-let webviewPanel: WebviewPanel | undefined;
-
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
@@ -34,231 +32,128 @@ export function activate(context: ExtensionContext) {
     nxConsole.activate();
   }
 
+  const registerCommand = (
+    name: string,
+    action: DomainAction,
+    type: Command
+  ) => {
+    const command = commands.registerCommand(name, (e: Uri) => {
+      if (!!nxConsole) {
+        revealWebViewPanel(
+          context,
+          nxConsole?.extensionPath,
+          taskProvider,
+          action,
+          type,
+          getCommandTriggerContext(e)
+        );
+      }
+    });
+    context.subscriptions.push(command);
+  };
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-  let createDomainCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.createDomain",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.createDomain,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.createDomain,
+    Command.generate
   );
-
-  let moveDomainCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.moveDomain",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.moveDomain,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.moveDomain,
+    Command.generate
   );
-
-  let removeDomainCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.removeDomain",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.removeDomain,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.removeDomain,
+    Command.generate
   );
-
-  let createCypressProjectCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.createCypressProject",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.createCypressProject,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.createCypressProject,
+    Command.generate
   );
-
-  let removeCypressProjectCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.removeCypressProject",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.removeCypressProject,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.removeCypressProject,
+    Command.generate
   );
-
-  let addLibrariesCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.addLibraries",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.addLibraries,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.addLibraries,
+    Command.generate
   );
-
-  let removeLibrariesCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.removeLibraries",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.removeLibraries,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.removeLibraries,
+    Command.generate
   );
-
-  let runLintCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.runLint",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.runLint,
-          Command.run,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.runLint,
+    Command.run
   );
-
-  let runTestsCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.runTests",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.runTests,
-          Command.run,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.runTests,
+    Command.run
   );
-
-  let runStorybookCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.runStorybook",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.runStorybook,
-          Command.run,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.runStorybook,
+    Command.run
   );
-
-  let runStorybookTestsCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.runStorybookTests",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.runStorybookTests,
-          Command.run,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.runStorybookTests,
+    Command.run
   );
-
-  let runE2ETestsCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.runE2ETests",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.runE2ETests,
-          Command.run,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.runE2ETests,
+    Command.run
   );
-
-  let addComponentCommand = commands.registerCommand(
+  registerCommand(
     "domain-schematics.addComponent",
-    (e: Uri) => {
-      if (!!nxConsole) {
-        revealWebViewPanel(
-          context,
-          nxConsole?.extensionPath,
-          taskProvider,
-          DomainAction.addComponent,
-          Command.generate,
-          getCommandTriggerContext(e)
-        );
-      }
-    }
+    DomainAction.addComponent,
+    Command.generate
   );
-
-  context.subscriptions.push(createDomainCommand);
-  context.subscriptions.push(moveDomainCommand);
-  context.subscriptions.push(removeDomainCommand);
-  context.subscriptions.push(createCypressProjectCommand);
-  context.subscriptions.push(removeCypressProjectCommand);
-  context.subscriptions.push(addLibrariesCommand);
-  context.subscriptions.push(removeLibrariesCommand);
-  context.subscriptions.push(runLintCommand);
-  context.subscriptions.push(runTestsCommand);
-  context.subscriptions.push(runStorybookCommand);
-  context.subscriptions.push(runStorybookTestsCommand);
-  context.subscriptions.push(runE2ETestsCommand);
-  context.subscriptions.push(addComponentCommand);
+  registerCommand(
+    "domain-schematics.ngrxAction",
+    DomainAction.addNgrxAction,
+    Command.generate
+  );
+  registerCommand(
+    "domain-schematics.ngrxEffect",
+    DomainAction.addNgrxEffect,
+    Command.generate
+  );
+  registerCommand(
+    "domain-schematics.ngrxEntity",
+    DomainAction.addNgrxEntity,
+    Command.generate
+  );
+  registerCommand(
+    "domain-schematics.ngrxFeature",
+    DomainAction.addNgrxFeature,
+    Command.generate
+  );
+  registerCommand(
+    "domain-schematics.ngrxSelector",
+    DomainAction.addNgrxSelector,
+    Command.generate
+  );
+  registerCommand(
+    "domain-schematics.ngrxStore",
+    DomainAction.addNgrxStore,
+    Command.generate
+  );
+  registerCommand(
+    "domain-schematics.ngrxReducer",
+    DomainAction.addNgrxReducer,
+    Command.generate
+  );
 }
-
 // this method is called when your extension is deactivated
 export function deactivate() {}

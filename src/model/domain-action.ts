@@ -12,6 +12,13 @@ export enum DomainAction {
   runStorybookTests = "runStorybookTests",
   runE2ETests = "runE2ETests",
   addComponent = "addComponent",
+  addNgrxAction = "addNgrxAction",
+  addNgrxEffect = "addNgrxEffect",
+  addNgrxEntity = "addNgrxEntity",
+  addNgrxFeature = "addNgrxFeature",
+  addNgrxSelector = "addNgrxSelector",
+  addNgrxStore = "addNgrxStore",
+  addNgrxReducer = "addNgrxReducer",
 }
 
 export const getDomainActionName = (action: DomainAction): string => {
@@ -40,8 +47,23 @@ export const getDomainActionName = (action: DomainAction): string => {
       return "storybook-e2e";
     case DomainAction.runE2ETests:
       return "e2e";
-    case DomainAction.addComponent: {
+    case DomainAction.addComponent:
       return "addComponent";
-    }
+    case DomainAction.addNgrxAction:
+      return "action";
+    case DomainAction.addNgrxEffect:
+      return "effect";
+    case DomainAction.addNgrxEntity:
+      return "entity";
+    case DomainAction.addNgrxFeature:
+      return "feature";
+    case DomainAction.addNgrxSelector:
+      return "selector";
+    case DomainAction.addNgrxStore:
+      return "store";
+    case DomainAction.addNgrxReducer:
+      return "reducer";
+    default:
+      return "";
   }
 };

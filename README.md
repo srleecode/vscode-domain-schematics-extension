@@ -20,3 +20,12 @@ Run tasks:
  - [e2e](readme/e2e.md)
  - [lint](readme/lint.md)
  - [test](readme/test.md)
+
+Ngrx tasks:
+ - [feature](readme/add-ngrx-feature.md)
+ - [action](readme/add-ngrx-action.md)
+ - [effect](readme/add-ngrx-effect.md)
+ - [entity](readme/add-ngrx-entity.md)
+ - [selector](readme/add-ngrx-selector.md)
+ - [store](readme/add-ngrx-store.md)
+ - [reducer](readme/add-ngrx-reducer.md)

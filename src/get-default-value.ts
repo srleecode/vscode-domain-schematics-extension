@@ -1,4 +1,3 @@
-import { window } from "vscode";
 import { getLibraries } from "./domain-utils";
 import { showError } from "./error-utils";
 import { CommandTriggerContext } from "./get-command-trigger-context";
@@ -6,6 +5,8 @@ import { ChangeDetection } from "./model/change-detection.enum";
 import { DomainAction } from "./model/domain-action";
 import { DomainLibraryName } from "./model/domain-library-name.enum";
 import { ExtensionConfiguration } from "./model/extension-configuration";
+import { sep } from "path";
+const fs = require("fs");
 
 export const getDefaultValue = (
   optionKey: string,
@@ -63,7 +64,45 @@ export const getDefaultValue = (
     } else if (commandTriggerContext.library === DomainLibraryName.ui) {
       defaultValue = ChangeDetection.onPush;
     }
+  } else if (isNgrxAction(action)) {
+    const domain = commandTriggerContext.childDomain
+      ? `${commandTriggerContext.topLevelDomain}/${commandTriggerContext.childDomain}`
+      : commandTriggerContext.topLevelDomain;
+    const dashifiedDomain = domain?.replace("/", "-");
+    if (optionKey === "path") {
+      defaultValue = `libs/${commandTriggerContext.application}/${domain}/${commandTriggerContext.library}/src/lib/${extensionConfiguration.ngrxFolder}`;
+    } else if (optionKey === "project") {
+      defaultValue = `${commandTriggerContext.application}-${dashifiedDomain}-${commandTriggerContext.library}`;
+    } else if (optionKey === "name") {
+      defaultValue = dashifiedDomain as string;
+    } else if (optionKey === "module" && isNgrxActionRequiringModule(action)) {
+      const path = `${commandTriggerContext.path}${sep}src${sep}lib`;
+      const moduleFile = fs
+        .readdirSync(path)
+        .find((file: string) => file.includes("module.ts"));
+      defaultValue = `../${moduleFile}`;
+    }
   }
 
   return defaultValue;
 };
+
+const isNgrxAction = (action: DomainAction): boolean =>
+  [
+    DomainAction.addNgrxAction,
+    DomainAction.addNgrxEffect,
+    DomainAction.addNgrxEntity,
+    DomainAction.addNgrxFeature,
+    DomainAction.addNgrxReducer,
+    DomainAction.addNgrxSelector,
+    DomainAction.addNgrxStore,
+  ].some((ngrxAction) => action === ngrxAction);
+
+const isNgrxActionRequiringModule = (action: DomainAction): boolean =>
+  [
+    DomainAction.addNgrxEffect,
+    DomainAction.addNgrxEntity,
+    DomainAction.addNgrxFeature,
+    DomainAction.addNgrxReducer,
+    DomainAction.addNgrxStore,
+  ].some((ngrxAction) => action === ngrxAction);

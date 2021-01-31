@@ -1,7 +1,7 @@
 export enum OptionComponent {
-  Autocomplete = "autocomplete",
-  Checkbox = "checkBox",
-  Input = "input",
-  Select = "select",
-  MultiSelect = "multiSelect",
+  autocomplete = "autocomplete",
+  checkbox = "checkBox",
+  input = "input",
+  select = "select",
+  multiSelect = "multiSelect",
 }

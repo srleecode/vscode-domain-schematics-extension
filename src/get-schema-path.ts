@@ -5,16 +5,21 @@ import { Command } from "./model/command";
 
 export const getSchemaPath = (
   command: Command,
-  builder: string,
   action: string,
-  isNrwlPlugin: boolean
+  collection: string,
+  builder = "",
+  isNrwlPlugin = false
 ): string => {
   let schemaPath = "";
   const rootPath = getWorkspaceRootPath();
   if (command === Command.generate) {
-    schemaPath = `node_modules/@srleecode/domain/src/schematics/${dashify(
-      action
-    )}/schema.json`;
+    if (collection === "@srleecode/domain") {
+      schemaPath = `node_modules/${collection}/src/schematics/${dashify(
+        action
+      )}/schema.json`;
+    } else if (collection === "@ngrx/schematics") {
+      schemaPath = `node_modules/@ngrx/schematics/src/${action}/schema.json`;
+    }
   } else if (command === Command.run) {
     const splitBuilder = builder.split(":");
     if (isNrwlPlugin) {

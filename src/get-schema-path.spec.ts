@@ -13,7 +13,11 @@ describe("getSchemaPath", () => {
     jest.spyOn(fileUtils, "getFullPath");
   });
   it("should read srleecode domain schematic schema when command is generate", () => {
-    getSchemaPath(Command.generate, "", DomainAction.createDomain, false);
+    getSchemaPath(
+      Command.generate,
+      DomainAction.createDomain,
+      "@srleecode/domain"
+    );
     expect(fileUtils.getFullPath).toHaveBeenCalledWith(
       "",
       "node_modules/@srleecode/domain/src/schematics/create-domain/schema.json"
@@ -22,9 +26,9 @@ describe("getSchemaPath", () => {
   it("should read standard builder format schema when command is run and it is not a nrwl plugin", () => {
     getSchemaPath(
       Command.run,
-      "@angular-devkit/build-angular:tslint",
       DomainAction.runLint,
-      false
+      "@srleecode/domain",
+      "@angular-devkit/build-angular:tslint"
     );
     expect(fileUtils.getFullPath).toHaveBeenCalledWith(
       "",
@@ -32,10 +36,28 @@ describe("getSchemaPath", () => {
     );
   });
   it("should nrwl plugin builder format schema when command is run and it is a nrwl plugin", () => {
-    getSchemaPath(Command.run, "@nrwl/linter:lint", DomainAction.runLint, true);
+    getSchemaPath(
+      Command.run,
+      DomainAction.runLint,
+      "@srleecode/domain",
+      "@nrwl/linter:lint",
+      true
+    );
     expect(fileUtils.getFullPath).toHaveBeenCalledWith(
       "",
       "node_modules/@nrwl/linter/src/lint/schema.json"
+    );
+  });
+
+  it("should get path for ngrx schematic", () => {
+    getSchemaPath(
+      Command.generate,
+      DomainAction.addNgrxReducer,
+      "@ngrx/schematics"
+    );
+    expect(fileUtils.getFullPath).toHaveBeenCalledWith(
+      "",
+      "node_modules/@ngrx/schematics/src/addNgrxReducer/schema.json"
     );
   });
 });

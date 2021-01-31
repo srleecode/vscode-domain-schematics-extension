@@ -6,16 +6,33 @@ import { Command } from "./model/command";
 export const getSchemaJson = (
   command: Command,
   builder: string,
-  name: string
+  name: string,
+  collection: string
 ) => {
-  let schematicJsonFilePath = getSchemaPath(command, builder, name, false);
+  let schematicJsonFilePath = getSchemaPath(
+    command,
+    name,
+    collection,
+    builder,
+    false
+  );
   if (!schematicJsonFilePath) {
-    schematicJsonFilePath = getSchemaPath(command, builder, name, true);
+    schematicJsonFilePath = getSchemaPath(
+      command,
+      name,
+      collection,
+      builder,
+      true
+    );
   }
   if (!schematicJsonFilePath) {
-    showError(
-      `Unable to find schema for ${command} ${name} ${builder}. Please ensure that you have the latest version of @srleecode/domain installed`
-    );
+    let error = `Unable to find schema for ${command} ${collection}:${name} ${builder}.`;
+    if (collection === "@srleecode/domain") {
+      error += ` Please ensure that you have the latest version of @srleecode/domain installed`;
+    } else {
+      error += ` Please ensure that you have installed ${collection}`;
+    }
+    showError(error);
   }
   const schematicJsonFile = readFileSync(schematicJsonFilePath);
   return JSON.parse(schematicJsonFile.toString());

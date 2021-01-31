@@ -5,6 +5,9 @@ import { ExtensionConfiguration } from "./model/extension-configuration";
 import * as domainUtils from "./domain-utils";
 import { DomainLibraryName } from "./model/domain-library-name.enum";
 import { ChangeDetection } from "./model/change-detection.enum";
+const fs = require("fs");
+
+jest.mock("fs");
 jest.mock("vscode", () => {}, { virtual: true });
 
 describe("getDefaultValue", () => {
@@ -21,16 +24,21 @@ describe("getDefaultValue", () => {
     enableIvy: true,
     strict: true,
     publishable: false,
+    ngrxFolder: "state",
   };
-  beforeAll(() =>
+  beforeEach(() => {
     jest
       .spyOn(domainUtils, "getLibraries")
-      .mockReturnValue([DomainLibraryName.dataAccess, DomainLibraryName.shell])
-  );
+      .mockReturnValue([DomainLibraryName.dataAccess, DomainLibraryName.shell]);
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("should set domain to top level domain when it is defined and option key is domain", () => {
     const commandTriggerContext: CommandTriggerContext = {
       application: "application",
       topLevelDomain: "top-level-domain",
+      path: "",
     };
 
     expect(
@@ -46,6 +54,7 @@ describe("getDefaultValue", () => {
     const commandTriggerContext: CommandTriggerContext = {
       application: "application",
       topLevelDomain: "top-level-domain",
+      path: "",
     };
 
     expect(
@@ -62,6 +71,7 @@ describe("getDefaultValue", () => {
       application: "application",
       topLevelDomain: "top-level-domain",
       childDomain: "child-domain",
+      path: "",
     };
 
     expect(
@@ -76,6 +86,7 @@ describe("getDefaultValue", () => {
   it("should include default value for option that is in the extension configuration", () => {
     const commandTriggerContext: CommandTriggerContext = {
       application: "application",
+      path: "",
     };
 
     expect(
@@ -92,6 +103,7 @@ describe("getDefaultValue", () => {
       application: "application",
       topLevelDomain: "top-level-domain",
       childDomain: "child-domain",
+      path: "",
     };
 
     expect(
@@ -108,6 +120,7 @@ describe("getDefaultValue", () => {
       application: "application",
       topLevelDomain: "top-level-domain",
       childDomain: "child-domain",
+      path: "",
     };
 
     expect(
@@ -125,6 +138,7 @@ describe("getDefaultValue", () => {
       topLevelDomain: "top-level-domain",
       childDomain: "child-domain",
       library: DomainLibraryName.ui,
+      path: "",
     };
 
     expect(
@@ -135,5 +149,86 @@ describe("getDefaultValue", () => {
         extensionConfiguration
       )
     ).toBe(ChangeDetection.onPush);
+  });
+  describe("ngrx default values", () => {
+    it("should set path for ngrx files", () => {
+      const commandTriggerContext: CommandTriggerContext = {
+        application: "application",
+        topLevelDomain: "top-level-domain",
+        childDomain: "child-domain",
+        library: DomainLibraryName.dataAccess,
+        path: "",
+      };
+
+      expect(
+        getDefaultValue(
+          "path",
+          DomainAction.addNgrxFeature,
+          commandTriggerContext,
+          extensionConfiguration
+        )
+      ).toBe(
+        `libs/${commandTriggerContext.application}/${commandTriggerContext.topLevelDomain}/${commandTriggerContext.childDomain}/${commandTriggerContext.library}/src/lib/${extensionConfiguration.ngrxFolder}`
+      );
+    });
+    it("should set project", () => {
+      const commandTriggerContext: CommandTriggerContext = {
+        application: "application",
+        topLevelDomain: "top-level-domain",
+        childDomain: "child-domain",
+        library: DomainLibraryName.dataAccess,
+        path: "",
+      };
+
+      expect(
+        getDefaultValue(
+          "project",
+          DomainAction.addNgrxFeature,
+          commandTriggerContext,
+          extensionConfiguration
+        )
+      ).toBe(
+        `${commandTriggerContext.application}-${commandTriggerContext.topLevelDomain}-${commandTriggerContext.childDomain}-${commandTriggerContext.library}`
+      );
+    });
+    it("should set name to domain", () => {
+      const commandTriggerContext: CommandTriggerContext = {
+        application: "application",
+        topLevelDomain: "top-level-domain",
+        childDomain: "child-domain",
+        library: DomainLibraryName.dataAccess,
+        path: "",
+      };
+
+      expect(
+        getDefaultValue(
+          "name",
+          DomainAction.addNgrxFeature,
+          commandTriggerContext,
+          extensionConfiguration
+        )
+      ).toBe(
+        `${commandTriggerContext.topLevelDomain}-${commandTriggerContext.childDomain}`
+      );
+    });
+    it("should set module to existing module name", () => {
+      const commandTriggerContext: CommandTriggerContext = {
+        application: "application",
+        topLevelDomain: "top-level-domain",
+        childDomain: "child-domain",
+        library: DomainLibraryName.dataAccess,
+        path: "",
+      };
+      const moduleFileName = `${commandTriggerContext.application}-${commandTriggerContext.topLevelDomain}-${commandTriggerContext.childDomain}-${commandTriggerContext.library}.module.ts`;
+      jest.spyOn(fs, "readdirSync").mockReturnValue(["", moduleFileName]);
+      expect(
+        getDefaultValue(
+          "module",
+          DomainAction.addNgrxFeature,
+          commandTriggerContext,
+          extensionConfiguration
+        )
+      ).toBe(`../${moduleFileName}`);
+    });
   });
 });

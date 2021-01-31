@@ -2,7 +2,7 @@
   "name": "domain-schematics",
   "displayName": "Domain Schematics",
   "description": "Extension for triggering nx domain schematics",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "repository": "https://github.com/srlee309/vscode-domain-schematics-extension",
   "engines": {
     "vscode": "^1.52.0"
@@ -21,7 +21,14 @@
     "onCommand:domain-schematics.removeLibraries",
     "onCommand:domain-schematics.runLint",
     "onCommand:domain-schematics.runTests",
-    "onCommand:domain-schematics.addComponent"
+    "onCommand:domain-schematics.addComponent",
+    "onCommand:domain-schematics.ngrxAction",
+    "onCommand:domain-schematics.ngrxEffect",
+    "onCommand:domain-schematics.ngrxEntity",
+    "onCommand:domain-schematics.ngrxFeature",
+    "onCommand:domain-schematics.ngrxSelector",
+    "onCommand:domain-schematics.ngrxStore",
+    "onCommand:domain-schematics.ngrxReducer"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -98,6 +105,11 @@
           "type": "boolean",
           "default": true,
           "description": "Specifies if the enableIvy flag is used when creating domain libraries."
+        },
+        "domainSchematics.ngrxFolder": {
+          "type": "string",
+          "default": "state",
+          "description": "Folder to create ngrx related code in"
         }
       }
     },
@@ -153,6 +165,34 @@
       {
         "command": "domain-schematics.addComponent",
         "title": "Create component"
+      },
+      {
+        "command": "domain-schematics.ngrxAction",
+        "title": "Create ngrx action"
+      },
+      {
+        "command": "domain-schematics.ngrxEffect",
+        "title": "Create ngrx effect"
+      },
+      {
+        "command": "domain-schematics.ngrxEntity",
+        "title": "Create ngrx entity"
+      },
+      {
+        "command": "domain-schematics.ngrxFeature",
+        "title": "Create ngrx feature"
+      },
+      {
+        "command": "domain-schematics.ngrxSelector",
+        "title": "Create ngrx selector"
+      },
+      {
+        "command": "domain-schematics.ngrxStore",
+        "title": "Create ngrx store"
+      },
+      {
+        "command": "domain-schematics.ngrxReducer",
+        "title": "Create ngrx reducer"
       }
     ],
     "menus": {
@@ -195,12 +235,12 @@
         {
           "command": "domain-schematics.runLint",
           "group": "3_domainRun@1",
-          "when": "resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)$/"
+          "when": "resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)$/ || resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)[/\\\\]src[/\\\\]lib$/"
         },
         {
           "command": "domain-schematics.runTests",
           "group": "3_domainRun@2",
-          "when": "resourcePath =~ /libs.*(?:data-access|feature|shell|ui|util)$/"
+          "when": "resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)$/ || resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)[/\\\\]src[/\\\\]lib$/"
         },
         {
           "command": "domain-schematics.runStorybook",
@@ -220,7 +260,42 @@
         {
           "command": "domain-schematics.addComponent",
           "group": "4_component@1",
-          "when": "resourcePath =~ /libs.*(?:feature|ui)$/"
+          "when": "resourcePath =~ /libs.*(?:feature|ui)$/ || resourcePath =~ /libs.*(?:feature|ui)[/\\\\]src[/\\\\]lib$/"
+        },
+        {
+          "command": "domain-schematics.ngrxAction",
+          "group": "4_ngrx@2",
+          "when": "resourcePath =~ /libs.*data-access$/ || resourcePath =~ /libs.*data-access[/\\\\]src[/\\\\]lib$/"
+        },
+        {
+          "command": "domain-schematics.ngrxEffect",
+          "group": "4_ngrx@3",
+          "when": "resourcePath =~ /libs.*data-access$/ || resourcePath =~ /libs.*data-access[/\\\\]src[/\\\\]lib$/"
+        },
+        {
+          "command": "domain-schematics.ngrxEntity",
+          "group": "4_ngrx@4",
+          "when": "resourcePath =~ /libs.*data-access$/ || resourcePath =~ /libs.*data-access[/\\\\]src[/\\\\]lib$/"
+        },
+        {
+          "command": "domain-schematics.ngrxFeature",
+          "group": "4_ngrx@1",
+          "when": "resourcePath =~ /libs.*data-access$/ || resourcePath =~ /libs.*data-access[/\\\\]src[/\\\\]lib$/"
+        },
+        {
+          "command": "domain-schematics.ngrxSelector",
+          "group": "4_ngrx@5",
+          "when": "resourcePath =~ /libs.*data-access$/ || resourcePath =~ /libs.*data-access[/\\\\]src[/\\\\]lib$/"
+        },
+        {
+          "command": "domain-schematics.ngrxStore",
+          "group": "4_ngrx@6",
+          "when": "resourcePath =~ /libs.*data-access$/ || resourcePath =~ /libs.*data-access[/\\\\]src[/\\\\]lib$/"
+        },
+        {
+          "command": "domain-schematics.ngrxReducer",
+          "group": "4_ngrx@7",
+          "when": "resourcePath =~ /libs.*data-access$/ || resourcePath =~ /libs.*data-access[/\\\\]src[/\\\\]lib$/"
         }
       ],
       "commandPalette": [
@@ -275,6 +350,34 @@
         {
           "command": "domain-schematics.addComponent",
           "when": "never"
+        },
+        {
+          "command": "domain-schematics.ngrxAction",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.ngrxEffect",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.ngrxEntity",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.ngrxFeature",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.ngrxSelector",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.ngrxStore",
+          "when": "never"
+        },
+        {
+          "command": "domain-schematics.ngrxReducer",
+          "when": "never"
         }
       ]
     }
@@ -291,22 +394,19 @@
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-typescript": "^7.12.7",
-    "@nrwl/cypress": "^11.1.1",
-    "@nrwl/storybook": "^11.1.1",
-    "@nrwl/workspace": "^11.1.1",
     "@srleecode/domain": "^4.1.2",
     "@types/glob": "^7.1.3",
     "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.20",
+    "@types/node": "^14.14.22",
     "@types/vscode": "^1.52.0",
-    "@typescript-eslint/eslint-plugin": "^4.12.0",
-    "@typescript-eslint/parser": "^4.12.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.17.0",
+    "eslint": "^7.18.0",
     "glob": "^7.1.6",
     "jest": "^26.6.3",
     "typescript": "^4.1.3",
-    "vscode-test": "^1.4.1"
+    "vscode-test": "^1.5.0"
   },
   "dependencies": {}
 }

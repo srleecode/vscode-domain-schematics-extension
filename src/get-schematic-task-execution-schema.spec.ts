@@ -13,6 +13,7 @@ import { ItemTooltips } from "./model/item-tooltips.model";
 describe("getSchematicTaskExecutionSchema", () => {
   const commandTriggerContext: CommandTriggerContext = {
     application: "application",
+    path: "",
   };
   const extensionConfiguration: ExtensionConfiguration = {
     style: "scss",
@@ -27,6 +28,7 @@ describe("getSchematicTaskExecutionSchema", () => {
     enableIvy: true,
     strict: true,
     publishable: false,
+    ngrxFolder: "state",
   };
   const getSelectedOption = (options: any[] | undefined, optionName: string) =>
     (options || []).filter((option) => option.name === optionName)[0];
@@ -111,7 +113,7 @@ describe("getSchematicTaskExecutionSchema", () => {
         });
         it("should use given items when option has items property", async () => {
           expect(getSelectedOption(schema?.options, "libraries").items).toEqual(
-            schemaMock.properties.libraries.items
+            schemaMock.properties.libraries.items.enum
           );
         });
       });
