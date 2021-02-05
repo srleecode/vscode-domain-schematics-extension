@@ -9,22 +9,12 @@ export const getSchemaJson = (
   name: string,
   collection: string
 ) => {
-  let schematicJsonFilePath = getSchemaPath(
+  const schematicJsonFilePath = getSchemaPath(
     command,
     name,
     collection,
-    builder,
-    false
+    builder
   );
-  if (!schematicJsonFilePath) {
-    schematicJsonFilePath = getSchemaPath(
-      command,
-      name,
-      collection,
-      builder,
-      true
-    );
-  }
   if (!schematicJsonFilePath) {
     let error = `Unable to find schema for ${command} ${collection}:${name} ${builder}.`;
     if (collection === "@srleecode/domain") {

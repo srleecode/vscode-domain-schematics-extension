@@ -19,6 +19,7 @@ export enum DomainAction {
   addNgrxSelector = "addNgrxSelector",
   addNgrxStore = "addNgrxStore",
   addNgrxReducer = "addNgrxReducer",
+  addPrivateApi = "addPrivateApi",
 }
 
 export const getDomainActionName = (action: DomainAction): string => {
@@ -63,6 +64,8 @@ export const getDomainActionName = (action: DomainAction): string => {
       return "store";
     case DomainAction.addNgrxReducer:
       return "reducer";
+    case DomainAction.addPrivateApi:
+      return "addPrivateApi";
     default:
       return "";
   }

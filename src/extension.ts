@@ -154,6 +154,11 @@ export function activate(context: ExtensionContext) {
     DomainAction.addNgrxReducer,
     Command.generate
   );
+  registerCommand(
+    "domain-schematics.addPrivateApi",
+    DomainAction.addPrivateApi,
+    Command.generate
+  );
 }
 // this method is called when your extension is deactivated
 export function deactivate() {}

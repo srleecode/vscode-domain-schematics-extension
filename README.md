@@ -13,6 +13,7 @@ Schematics:
  - [add cypress project](readme/add-cyporess-project.md)
  - [remove cypress project](readme/remove-cypress-project.md)
  - [add component](readme/add-component.md)
+ - [add private api](readme/add-private-api.md)
 
 Run tasks:
  - [storybook](readme/storybook.md)

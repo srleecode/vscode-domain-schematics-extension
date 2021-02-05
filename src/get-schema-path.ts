@@ -7,8 +7,7 @@ export const getSchemaPath = (
   command: Command,
   action: string,
   collection: string,
-  builder = "",
-  isNrwlPlugin = false
+  builder = ""
 ): string => {
   let schemaPath = "";
   const rootPath = getWorkspaceRootPath();
@@ -22,11 +21,17 @@ export const getSchemaPath = (
     }
   } else if (command === Command.run) {
     const splitBuilder = builder.split(":");
-    if (isNrwlPlugin) {
-      schemaPath = `node_modules/${splitBuilder[0]}/src/${splitBuilder[1]}/schema.json`;
-    } else {
-      schemaPath = `node_modules/${splitBuilder[0]}/src/builders/${splitBuilder[1]}/schema.json`;
-    }
+    const potentialPaths = [
+      `node_modules/${splitBuilder[0]}/src/${splitBuilder[1]}/schema.json`, // non nrwl, e.g. angular tslint
+      `node_modules/${splitBuilder[0]}/src/builders/${splitBuilder[1]}/schema.json`, // older nrwl, e.g. eslint
+      `node_modules/${splitBuilder[0]}/src/executors/${splitBuilder[1]}/schema.json`, // newer nrwl, e.g. eslint
+    ];
+    const validFilePaths = potentialPaths.filter((path) => {
+      const fullPath = getFullPath(rootPath, path);
+      return isFile(fullPath);
+    });
+
+    schemaPath = validFilePaths[0];
   }
 
   const schematicJsonFilePath = getFullPath(rootPath, schemaPath);
