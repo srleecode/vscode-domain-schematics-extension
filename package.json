@@ -245,7 +245,7 @@
         {
           "command": "domain-schematics.runTests",
           "group": "3_domainRun@2",
-          "when": "resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)$/ || resourcePath =~ /libs.*(?:\\.cypress|data-access|feature|shell|ui|util)[/\\\\]src[/\\\\]lib$/"
+          "when": "resourcePath =~ /libs.*(?:data-access|feature|shell|ui|util)$/ || resourcePath =~ /libs.*(?:data-access|feature|shell|ui|util)[/\\\\]src[/\\\\]lib$/"
         },
         {
           "command": "domain-schematics.runStorybook",

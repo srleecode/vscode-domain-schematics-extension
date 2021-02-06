@@ -231,4 +231,24 @@ describe("getDefaultValue", () => {
       ).toBe(`../${moduleFileName}`);
     });
   });
+  it("should set lintFilePattern to domain library folder", () => {
+    const commandTriggerContext: CommandTriggerContext = {
+      application: "application",
+      topLevelDomain: "top-level-domain",
+      childDomain: "child-domain",
+      library: DomainLibraryName.dataAccess,
+      path: "",
+    };
+
+    expect(
+      getDefaultValue(
+        "lintFilePatterns",
+        DomainAction.runLint,
+        commandTriggerContext,
+        extensionConfiguration
+      )
+    ).toBe(
+      `libs/${commandTriggerContext.application}/${commandTriggerContext.topLevelDomain}/${commandTriggerContext.childDomain}/${commandTriggerContext.library}/src/lib`
+    );
+  });
 });
