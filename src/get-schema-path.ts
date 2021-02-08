@@ -19,6 +19,9 @@ export const getSchemaPath = (
     } else if (collection === "@ngrx/schematics") {
       schemaPath = `node_modules/@ngrx/schematics/src/${action}/schema.json`;
     }
+    if (!isFile(schemaPath)) {
+      schemaPath = schemaPath.replace("schematics", "generators");
+    }
   } else if (command === Command.run) {
     const splitBuilder = builder.split(":");
     const potentialPaths = [

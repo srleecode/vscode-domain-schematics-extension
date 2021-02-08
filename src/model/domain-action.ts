@@ -49,7 +49,7 @@ export const getDomainActionName = (action: DomainAction): string => {
     case DomainAction.runE2ETests:
       return "e2e";
     case DomainAction.addComponent:
-      return "addComponent";
+      return "component";
     case DomainAction.addNgrxAction:
       return "action";
     case DomainAction.addNgrxEffect:

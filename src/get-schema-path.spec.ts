@@ -28,6 +28,20 @@ describe("getSchemaPath", () => {
         `node_modules${sep}@srleecode${sep}domain${sep}src${sep}schematics${sep}create-domain${sep}schema.json`
       );
     });
+    it("should read srleecode domain generator schema when command is generate and schematic is not found", () => {
+      jest
+        .spyOn(fileUtils, "isFile")
+        .mockReturnValueOnce(false)
+        .mockReturnValueOnce(true);
+      const schemaPath = getSchemaPath(
+        Command.generate,
+        DomainAction.createDomain,
+        "@srleecode/domain"
+      );
+      expect(schemaPath).toBe(
+        `node_modules${sep}@srleecode${sep}domain${sep}src${sep}generators${sep}create-domain${sep}schema.json`
+      );
+    });
     it("should get path for ngrx schematic", () => {
       const schemaPath = getSchemaPath(
         Command.generate,
