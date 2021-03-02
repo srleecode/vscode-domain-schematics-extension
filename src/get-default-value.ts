@@ -13,7 +13,7 @@ export const getDefaultValue = (
   action: DomainAction,
   commandTriggerContext: CommandTriggerContext,
   extensionConfiguration: ExtensionConfiguration
-): string | boolean | undefined => {
+): string | string[] | boolean | undefined => {
   const commandContextValue = (commandTriggerContext as any)[optionKey];
   const extensionContextValue = (extensionConfiguration as any)[optionKey];
   let contextValue = "";
@@ -27,7 +27,7 @@ export const getDefaultValue = (
     ? `${commandTriggerContext.topLevelDomain}/${commandTriggerContext.childDomain}`
     : commandTriggerContext.topLevelDomain || "";
   const dashifiedDomain = domain?.replace("/", "-");
-  let defaultValue: string | undefined = contextValue;
+  let defaultValue: string | string[] | undefined = contextValue;
   if (optionKey === "domain") {
     defaultValue = getDomainDefaultValue(action, commandTriggerContext);
   } else if (
@@ -142,22 +142,22 @@ const getChangeDetectionDefaultValue = (
 const getLibrariesDefaultValue = (
   action: DomainAction,
   commandTriggerContext: CommandTriggerContext
-): string => {
+): string[] => {
   const existingLibraries = getLibraries(commandTriggerContext);
   if (action === DomainAction.addLibraries) {
-    let defaultValue = Object.values(DomainLibraryName)
-      .filter((libraryName) => !existingLibraries.includes(libraryName))
-      .join(",");
-    if (defaultValue === "") {
+    let defaultValue = Object.values(DomainLibraryName).filter(
+      (libraryName) => !existingLibraries.includes(libraryName)
+    );
+    if (defaultValue === []) {
       showError(
         "Unable to add a new library as all the library types are already in this domain"
       );
     }
     return defaultValue;
   } else if (action === DomainAction.removeLibraries) {
-    return Object.values(DomainLibraryName)
-      .filter((libraryName) => existingLibraries.includes(libraryName))
-      .join(",");
+    return Object.values(DomainLibraryName).filter((libraryName) =>
+      existingLibraries.includes(libraryName)
+    );
   }
-  return "";
+  return [];
 };

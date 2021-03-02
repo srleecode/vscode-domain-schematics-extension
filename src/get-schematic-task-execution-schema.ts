@@ -8,7 +8,6 @@ import { getProject } from "./get-project";
 import { getDefaultValue } from "./get-default-value";
 import { showError } from "./error-utils";
 import { getSchemaJson } from "./schema-utils";
-import { getFieldType } from "./get-field-type";
 import { getEnumTooltips } from "./get-enum-tooltips";
 import {
   isLongFormXPrompt,
@@ -43,7 +42,6 @@ export const getSchematicTaskExecutionSchema = (
       ...schematicJson.properties[key],
     };
     delete option.items;
-    const fieldType = getFieldType(option);
     const xPrompt: XPrompt = option["x-prompt"];
     const defaultValue = getDefaultValue(
       key,
@@ -65,9 +63,6 @@ export const getSchematicTaskExecutionSchema = (
           option.items = items;
         }
       }
-    }
-    if (fieldType) {
-      option.component = fieldType;
     }
     if (defaultValue) {
       option.default = defaultValue;

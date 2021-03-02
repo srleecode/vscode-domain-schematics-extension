@@ -113,7 +113,7 @@ describe("getDefaultValue", () => {
         commandTriggerContext,
         extensionConfiguration
       )
-    ).toBe("feature,ui,util");
+    ).toEqual(["feature", "ui", "util"]);
   });
   it("should only show remove library options for libraries that exist", () => {
     const commandTriggerContext: CommandTriggerContext = {
@@ -130,7 +130,7 @@ describe("getDefaultValue", () => {
         commandTriggerContext,
         extensionConfiguration
       )
-    ).toBe("data-access,shell");
+    ).toEqual(["data-access", "shell"]);
   });
   it("should set change detection based on library type clicked", () => {
     const commandTriggerContext: CommandTriggerContext = {
