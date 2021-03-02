@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/srleecode/domain](https://badges.gitter.im/srleecode/domain.svg)](https://gitter.im/srleecode/domain?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This extension allows the [domain schematics](https://github.com/srlee309/domain) to be more easily used by launching the nx console and adding appropriate default valeus based on the command trigger context. Install the [domain schematics](https://github.com/srlee309/domain) library before using this extension.
+This extension allows the [domain schematics](https://github.com/srleecode/domain) to be more easily used by launching the nx console and adding appropriate default valeus based on the command trigger context. Install the [domain schematics](https://github.com/srleecode/domain) library before using this extension.
 
 Schematics:
  - [create](readme/create.md)

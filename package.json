@@ -3,7 +3,7 @@
   "displayName": "Domain Schematics",
   "description": "Extension for triggering nx domain schematics",
   "version": "1.4.0",
-  "repository": "https://github.com/srlee309/vscode-domain-schematics-extension",
+  "repository": "https://github.com/srleecode/vscode-domain-schematics-extension",
   "engines": {
     "vscode": "^1.53.0"
   },
