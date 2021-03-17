@@ -18,7 +18,7 @@ import { getCollection } from "./get-collection";
 
 export const getSchematicTaskExecutionSchema = (
   schematicName: DomainAction,
-  command: Command,
+  commandType: Command,
   workspaceJsonPath: string,
   commandTriggerContext: CommandTriggerContext
 ): TaskExecutionSchema | undefined => {
@@ -27,7 +27,7 @@ export const getSchematicTaskExecutionSchema = (
   const cliName = useNxCli ? "nx" : "ng";
   const project = getProject(commandTriggerContext);
   let builder = "";
-  if (command === Command.run) {
+  if (commandType === Command.run) {
     builder = getBuilder(workspaceJsonPath, project, name);
   }
   const extensionConfiguration = getExtensionConfiguration();
@@ -35,7 +35,7 @@ export const getSchematicTaskExecutionSchema = (
     schematicName,
     extensionConfiguration.collection
   );
-  const schematicJson = getSchemaJson(command, builder, name, collection);
+  const schematicJson = getSchemaJson(commandType, builder, name, collection);
   const options = Object.keys(schematicJson.properties).map((key) => {
     const option = {
       name: key,
@@ -73,16 +73,43 @@ export const getSchematicTaskExecutionSchema = (
 
   return {
     name,
-    collection: command === Command.generate ? collection : "",
+    collection: commandType === Command.generate ? collection : "",
     options,
     description: schematicJson.description,
-    command: command === Command.generate ? command : name,
-    positional:
-      command === Command.generate ? `${collection}:${name}` : project,
+    command: getCommand(commandType, name),
+    positional: getPositional(commandType, project, collection, name),
     cliName,
     contextValues: undefined,
   };
 };
+
+const getCommand = (commandType: Command, name: string): string => {
+  if (commandType === Command.generate) {
+    return Command.generate.toString();
+  }
+  if (isNativelySupportedProject(name)) {
+    return name;
+  }
+  return "run";
+};
+
+const getPositional = (
+  commandType: Command,
+  project: string,
+  collection: string,
+  name: string
+): string => {
+  if (commandType === Command.generate) {
+    return `${collection}:${name}`;
+  }
+  if (isNativelySupportedProject(name)) {
+    return project;
+  }
+  return `${project}:${name}`;
+};
+
+const isNativelySupportedProject = (project: string): boolean =>
+  ["e2e", "lint", "test"].includes(project);
 
 const getBuilder = (
   workspaceJsonPath: string,
@@ -94,5 +121,8 @@ const getBuilder = (
   if (!workspaceJson.projects[project]) {
     showError(`unable to find builder for ${project}`);
   }
-  return workspaceJson.projects[project].architect[name].builder;
+  if (workspaceJson.projects[project].architect) {
+    return workspaceJson.projects[project].architect[name].builder;
+  }
+  return workspaceJson.projects[project].targets[name].executor;
 };
