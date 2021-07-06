@@ -15,7 +15,7 @@ export const getCliTaskWithDefaults = (
         return option.default.length;
       }
       if (typeof option.default === "boolean") {
-        return true;
+        return false;
       }
       return option.default;
     })

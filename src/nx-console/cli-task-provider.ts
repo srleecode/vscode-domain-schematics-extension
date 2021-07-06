@@ -5,10 +5,8 @@ import {
   TaskExecution,
   TaskProvider,
   tasks,
-  window,
   TaskDefinition,
   TaskScope,
-  CancellationToken,
   ProviderResult,
 } from "vscode";
 import { CliTaskDefinition } from "./cli-task-definition";
@@ -143,9 +141,9 @@ export class CliTaskProvider implements TaskProvider {
     });
   }
 
-  private verifyNodeModules(
-    workspacePath: string
-  ): { validNodeModules: boolean } {
+  private verifyNodeModules(workspacePath: string): {
+    validNodeModules: boolean;
+  } {
     if (!existsSync(join(workspacePath, "node_modules"))) {
       showError(
         `Could not execute task since node_modules directory is missing. Run npm install at: ${workspacePath}`

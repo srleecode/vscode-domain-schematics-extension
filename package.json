@@ -2,10 +2,10 @@
   "name": "domain-schematics",
   "displayName": "Domain Schematics",
   "description": "Extension for triggering nx domain schematics",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "repository": "https://github.com/srleecode/vscode-domain-schematics-extension",
   "engines": {
-    "vscode": "^1.54.0"
+    "vscode": "^1.57.1"
   },
   "categories": [
     "Other"
@@ -401,22 +401,23 @@
     "test": "jest ./src"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.13",
-    "@babel/preset-env": "^7.12.13",
-    "@babel/preset-typescript": "^7.12.13",
-    "@srleecode/domain": "^11.2.2",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "@srleecode/domain": "^12.5.1",
     "@types/glob": "^7.1.3",
-    "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.25",
-    "@types/vscode": "^1.53.0",
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
-    "@typescript-eslint/parser": "^4.14.2",
-    "babel-jest": "^26.6.3",
-    "eslint": "^7.19.0",
-    "glob": "^7.1.6",
-    "jest": "^26.6.3",
-    "typescript": "^4.1.3",
-    "vscode-test": "^1.5.0"
+    "@types/jest": "^26.0.23",
+    "@types/node": "^16.0.0",
+    "@types/vscode": "^1.57.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.30.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "glob": "^7.1.7",
+    "jest": "^27.0.6",
+    "typescript": "^4.3.5",
+    "vscode-test": "^1.5.2"
   },
   "dependencies": {}
 }

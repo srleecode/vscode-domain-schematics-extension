@@ -102,12 +102,6 @@ const getNgrxActionDefaultValue = (
       .readdirSync(path)
       .find((file: string) => file.includes("module.ts"));
     return `../${moduleFile}`;
-  } else if (optionKey === "module" && isNgrxActionRequiringModule(action)) {
-    const path = `${commandTriggerContext.path}${sep}src${sep}lib`;
-    const moduleFile = fs
-      .readdirSync(path)
-      .find((file: string) => file.includes("module.ts"));
-    return `../${moduleFile}`;
   }
 };
 

@@ -1,6 +1,6 @@
 import { lstatSync, readdirSync } from "fs";
 import { basename, join } from "path";
-import { Uri, workspace } from "vscode";
+import { workspace } from "vscode";
 import { CommandTriggerContext } from "./get-command-trigger-context";
 import { DomainLibraryName } from "./model/domain-library-name.enum";
 

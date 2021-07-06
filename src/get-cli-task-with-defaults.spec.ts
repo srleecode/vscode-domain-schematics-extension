@@ -3,7 +3,7 @@ import { CliTaskDefinition } from "./nx-console/cli-task-definition";
 import { TaskExecutionSchema } from "./nx-console/task-execution-schema";
 
 describe("getCliTaskWithDefaults", () => {
-  it("should add flags for fields that have defaults", () => {
+  it("should add flags for fields except booleans that have defaults", () => {
     const taskDefinition: CliTaskDefinition = {
       command: "generate",
       positional: "@srleecode/domain:create",
@@ -155,9 +155,6 @@ describe("getCliTaskWithDefaults", () => {
         "--domain=new3/",
         "--prefix=test",
         "--style=scss",
-        "--addJestJunitReporter=false",
-        "--addE2EProject=false",
-        "--addStorybookProject=false",
         "--libraries=data-access,feature,shell,ui",
         "--no-interactive",
         "--dry-run",

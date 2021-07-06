@@ -1,14 +1,4 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import {
-  WebviewPanel,
-  ExtensionContext,
-  extensions,
-  window,
-  commands,
-  Uri,
-  Extension,
-} from "vscode";
+import { ExtensionContext, extensions, commands, Uri } from "vscode";
 import { getCommandTriggerContext } from "./get-command-trigger-context";
 import { CliTaskProvider } from "./nx-console/cli-task-provider";
 import { revealWebViewPanel } from "./nx-console/webview";

@@ -1,4 +1,4 @@
-import { Uri, workspace } from "vscode";
+import { workspace } from "vscode";
 import { ExtensionConfiguration } from "./model/extension-configuration";
 
 export const getExtensionConfiguration = (): ExtensionConfiguration => {

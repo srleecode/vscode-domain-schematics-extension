@@ -1,4 +1,3 @@
-import { join } from "path";
 import { getWorkspaceRootPath } from "./domain-utils";
 import { getFullPath, isFile } from "./file-utils";
 import { Command } from "./model/command";

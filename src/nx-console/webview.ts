@@ -2,12 +2,10 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import {
   ExtensionContext,
-  TreeView,
   Uri,
   ViewColumn,
   WebviewPanel,
   window,
-  tasks,
 } from "vscode";
 import { CliTaskProvider } from "./cli-task-provider";
 import { TaskExecutionSchema } from "./task-execution-schema";
